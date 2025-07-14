@@ -16,6 +16,7 @@ public class ElectionServiceImpl implements ElectionService {
 
     private final ElectionRepository electionRepository;
     private final UserRepository userRepository;
+    private final VoterTokenRepository voterTokenRepository;
 
     @Transactional
     @Override
@@ -62,4 +63,19 @@ public class ElectionServiceImpl implements ElectionService {
 
         return responseTokens;
     }
+
+    @Override
+    public List<OptionResultDTO> getElectionResults(Long electionId) {
+        Election election = electionRepository.findById(electionId)
+                .orElseThrow(() -> new RuntimeException("Election not found"));
+
+        List<OptionResultDTO> results = new ArrayList<>();
+        for (Option option : election.getOptions()) {
+            long voteCount = voterTokenRepository.countBySelectedOption(option);
+            results.add(new OptionResultDTO(option.getId(), option.getLabel(), voteCount));
+        }
+
+        return results;
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.evoting.evote_backend.service.impl;
 
+import com.evoting.evote_backend.dto.VoteRequestDTO;
 import com.evoting.evote_backend.entity.Option;
 import com.evoting.evote_backend.entity.VoterToken;
 import com.evoting.evote_backend.repository.OptionRepository;
@@ -20,15 +21,15 @@ public class VoterTokenServiceImpl implements VoterTokenService {
 
     @Override
     @Transactional
-    public void vote(UUID token, Long optionId) {
-        VoterToken voterToken = voterTokenRepository.findByToken(token)
+    public void vote(VoteRequestDTO request) {
+        VoterToken voterToken = voterTokenRepository.findByToken(request.token())
                 .orElseThrow(() -> new IllegalArgumentException("Token invalide ou inexistant."));
 
         if (voterToken.isUsed()) {
             throw new IllegalStateException("Ce lien de vote a déjà été utilisé.");
         }
 
-        Option option = optionRepository.findById(optionId)
+        Option option = optionRepository.findById(request.optionId())
                 .orElseThrow(() -> new IllegalArgumentException("Option invalide."));
 
         // Vérifier que l'option appartient à la même élection

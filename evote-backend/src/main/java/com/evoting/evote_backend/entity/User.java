@@ -17,7 +17,8 @@ public class User {
 
     private String password; // hashed
 
-    private String role; // e.g., "ADMIN"
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "createdBy")
     private List<Election> elections;

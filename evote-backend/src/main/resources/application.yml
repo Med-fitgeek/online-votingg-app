@@ -20,3 +20,6 @@ spring:
   sql:
     init:
       mode: always
+
+jwt:
+  secret: MonSuperSecretJWT123456789qwdfeghbguyv54343546578653SFDFG

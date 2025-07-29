@@ -1,6 +1,7 @@
 package com.evoting.evote_backend.service.impl;
 
 import com.evoting.evote_backend.dto.VoteRequestDTO;
+import com.evoting.evote_backend.entity.Election;
 import com.evoting.evote_backend.entity.Option;
 import com.evoting.evote_backend.entity.VoterToken;
 import com.evoting.evote_backend.repository.OptionRepository;
@@ -10,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -27,6 +29,13 @@ public class VoterTokenServiceImpl implements VoterTokenService {
 
         if (voterToken.isUsed()) {
             throw new IllegalStateException("Ce lien de vote a déjà été utilisé.");
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        Election election = voterToken.getElection();
+
+        if (now.isBefore(election.getStartDate()) || now.isAfter(election.getEndDate())) {
+            throw new IllegalStateException("La période de vote n'est pas active.");
         }
 
         Option option = optionRepository.findById(request.optionId())

@@ -34,7 +34,7 @@ public class ElectionController {
     }
 
 
-    @GetMapping("/{id}/results")
+    @GetMapping("/results/{id}")
     public ResponseEntity<List<ElectionResultDTO>> getResults(@PathVariable Long id) {
         return ResponseEntity.ok(electionService.getElectionResults(id));
     }

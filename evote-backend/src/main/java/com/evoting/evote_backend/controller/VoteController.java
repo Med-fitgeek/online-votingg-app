@@ -13,7 +13,7 @@ public class VoteController {
 
     private final VoterTokenService voterTokenService;
 
-    @PostMapping
+    @PostMapping("/vote")
     public ResponseEntity<String> vote(@RequestBody VoteRequestDTO request) {
         voterTokenService.vote(request);
         return ResponseEntity.ok("Vote enregistré avec succès !");

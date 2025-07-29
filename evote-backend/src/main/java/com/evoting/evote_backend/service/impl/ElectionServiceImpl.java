@@ -17,11 +17,12 @@ public class ElectionServiceImpl implements ElectionService {
     private final ElectionRepository electionRepository;
     private final UserRepository userRepository;
     private final VoterTokenRepository voterTokenRepository;
+    private final OptionRepository optionRepository;
 
     @Transactional
     @Override
-    public List<VoterTokenResponseDTO> createElection(ElectionRequestDTO dto, Long creatorId) {
-        User creator = userRepository.findById(creatorId)
+    public List<VoterTokenResponseDTO> createElection(ElectionRequestDTO dto, String username) {
+        User creator = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
 
         // 1. Créer l’élection
@@ -65,17 +66,19 @@ public class ElectionServiceImpl implements ElectionService {
     }
 
     @Override
-    public List<OptionResultDTO> getElectionResults(Long electionId) {
+    public List<ElectionResultDTO> getElectionResults(Long electionId) {
         Election election = electionRepository.findById(electionId)
-                .orElseThrow(() -> new RuntimeException("Election not found"));
+                .orElseThrow(() -> new RuntimeException("Élection introuvable"));
 
-        List<OptionResultDTO> results = new ArrayList<>();
-        for (Option option : election.getOptions()) {
-            long voteCount = voterTokenRepository.countBySelectedOption(option);
-            results.add(new OptionResultDTO(option.getId(), option.getLabel(), voteCount));
-        }
+        List<Option> options = optionRepository.findByElection(election);
 
-        return results;
+        return options.stream()
+                .map(option -> new ElectionResultDTO(
+                        option.getId(),
+                        option.getLabel(),
+                        voterTokenRepository.countBySelectedOption(option)
+                ))
+                .toList();
     }
 
 }

@@ -16,9 +16,10 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public String register(String username, String password) {
+    public String register(String username, String email, String password) {
         User user = User.builder()
                 .username(username)
+                .email(email)
                 .password(passwordEncoder.encode(password))
                 .role(Role.USER)
                 .build();

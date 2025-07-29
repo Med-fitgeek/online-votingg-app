@@ -18,7 +18,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody Map<String, String> req) {
-        String token = authService.register(req.get("username"), req.get("password"));
+        String token = authService.register(req.get("username"), req.get("email"), req.get("password"));
         return ResponseEntity.ok(token);
     }
 

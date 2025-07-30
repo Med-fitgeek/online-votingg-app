@@ -1,0 +1,19 @@
+<h2 class="mb-4 text-primary fw-bold">Mes élections</h2>
+
+<div *ngIf="elections.length === 0" class="alert alert-info">
+  Aucune élection trouvée pour le moment.
+</div>
+
+<div *ngFor="let election of elections" class="card mb-3 shadow-sm">
+  <div class="card-body">
+    <h5 class="card-title fw-bold">{{ election.title }}</h5>
+    <p class="card-text">{{ election.description }}</p>
+    <p class="card-text text-muted">
+      <strong>Début :</strong> {{ election.startDate | date:'short' }} <br />
+      <strong>Fin :</strong> {{ election.endDate | date:'short' }}
+    </p>
+    <button class="btn btn-sm btn-outline-primary me-2" (click)="onViewResults(election.id)">Voir résultats</button>
+    <button class="btn btn-sm btn-outline-secondary me-2" (click)="onEditElection(election.id)">Modifier</button>
+    <button class="btn btn-sm btn-outline-danger" (click)="onDeleteElection(election.id)">Supprimer</button>
+  </div>
+</div>

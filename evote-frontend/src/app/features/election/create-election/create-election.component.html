@@ -1,0 +1,41 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="container mt-4">
+  <div class="mb-3">
+    <label>Titre</label>
+    <input formControlName="title" class="form-control" />
+  </div>
+
+  <div class="mb-3">
+    <label>Description</label>
+    <textarea formControlName="description" class="form-control"></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label>Date de début</label>
+    <input type="datetime-local" formControlName="startDate" class="form-control" />
+  </div>
+
+  <div class="mb-3">
+    <label>Date de fin</label>
+    <input type="datetime-local" formControlName="endDate" class="form-control" />
+  </div>
+
+  <div class="mb-3">
+    <label>Options de vote</label>
+    <div *ngFor="let opt of options.controls; let i = index" class="input-group mb-2">
+      <input [formControl]="opt" class="form-control" />
+      <button type="button" class="btn btn-danger" (click)="removeOption(i)">-</button>
+    </div>
+    <button type="button" class="btn btn-outline-primary" (click)="addOption()">+ Ajouter une option</button>
+  </div>
+
+  <div class="mb-3">
+    <label>Votants</label>
+    <div *ngFor="let voter of voters.controls; let i = index" class="input-group mb-2">
+      <input [formControl]="voter" class="form-control" placeholder="Nom ou email" />
+      <button type="button" class="btn btn-danger" (click)="removeVoter(i)">-</button>
+    </div>
+    <button type="button" class="btn btn-outline-primary" (click)="addVoter()">+ Ajouter un votant</button>
+  </div>
+
+  <button class="btn btn-success" [disabled]="form.invalid">Créer l’élection</button>
+</form>

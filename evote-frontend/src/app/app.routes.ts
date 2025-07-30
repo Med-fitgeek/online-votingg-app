@@ -22,13 +22,13 @@ export const routes: Routes = [
         import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
   {
-    path: 'create-election',
+    path: 'dashboard/create-election',
     canActivate: [authGuard],
     loadComponent: () =>
         import('./features/election/create-election/create-election.component').then(m => m.CreateElectionComponent)
   },
   {
-    path: 'my-elections',
+    path: 'dashboard/my-elections',
     canActivate: [authGuard],
     loadComponent: () =>
         import('./features/election/my-elections/my-elections.component').then(m => m.MyElectionsComponent)

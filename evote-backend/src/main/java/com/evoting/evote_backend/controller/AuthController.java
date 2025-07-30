@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -17,14 +18,22 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Map<String, String> req) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody Map<String, String> req) {
         String token = authService.register(req.get("username"), req.get("email"), req.get("password"));
-        return ResponseEntity.ok(token);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> req) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> req) {
         String token = authService.authenticate(req.get("username"), req.get("password"));
-        return ResponseEntity.ok(token);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+
+        return ResponseEntity.ok(response);
     }
 }

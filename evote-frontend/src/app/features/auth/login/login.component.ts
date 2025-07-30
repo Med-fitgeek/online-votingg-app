@@ -25,11 +25,15 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    if (this.loginForm.invalid) return;
+  if (this.loginForm.invalid) return;
 
-    this.authService.login(this.loginForm.value).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
-      error: err => console.error('Erreur de connexion', err)
-    });
-  }
+  this.authService.login(this.loginForm.value).subscribe({
+    next: (res) => {
+      this.authService.saveToken(res.token); // ⬅️ appel manuel ici
+      this.router.navigate(['/dashboard']);
+    },
+    error: err => console.error('Erreur de connexion', err)
+  });
+}
+
 }

@@ -12,7 +12,6 @@ VoteSphere est une plateforme web moderne de vote électronique permettant à un
 - [Installation Backend (Spring Boot)](#-installation-backend-spring-boot)
 - [Installation Frontend (Angular 17)](#-installation-frontend-angular-17)
 - [Authentification](#-authentification)
-- [Modèles de données](#-modèles-de-données)
 - [Aperçu](#-aperçu)
 - [TODO](#-todo)
 - [Licence](#-licence)
@@ -82,8 +81,9 @@ jwt.expiration=86400000
 
 ### 3. Lancer le projet
 
-cd evote-backend
+```cd evote-backend
 ./mvnw spring-boot:run
+```
 
 
 
